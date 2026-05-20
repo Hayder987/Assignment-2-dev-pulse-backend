@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 import { pool } from "../../db";
+import type { IUserPayload } from "./auth.interface";
 
-const registerUserIntoDb = async (payload: any) => {
+const registerUserIntoDb = async (payload: IUserPayload) => {
   const { name, email, password, role } = payload;
 
   const hashPassword = await bcrypt.hashSync(password, 10);
