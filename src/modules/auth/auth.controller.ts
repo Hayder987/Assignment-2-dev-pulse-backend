@@ -6,8 +6,8 @@ import { sendSuccessResponse } from "../../utils/sendSuccessResponse";
 import { sendErrorResponse } from "../../utils/sendErrorResponse";
 
 
-const registerUser = async(req:Request, res:Response)=>{
-   try {
+const registerUser = async (req: Request, res: Response) => {
+  try {
     const result = await authService.registerUserIntoDb(req.body);
 
     return sendSuccessResponse(
@@ -16,11 +16,17 @@ const registerUser = async(req:Request, res:Response)=>{
       "User registered successfully",
       result?.rows[0]
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
+    let message = "User Register Failed";
+
+    if (error instanceof Error) {
+      message = error.message;
+    }
+
     return sendErrorResponse(
       res,
       StatusCodes.INTERNAL_SERVER_ERROR,
-      error?.message || "User Registered Fail",
+      message,
       error
     );
   }
