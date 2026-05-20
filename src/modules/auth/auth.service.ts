@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import { pool } from "../../db";
-import type { IUserPayload } from "./auth.interface";
+import type { ILoginPayload, IUserPayload } from "./auth.interface";
+import { AppError } from "../../errors/appError";
+import { StatusCodes } from "http-status-codes";
 
 const registerUserIntoDb = async (payload: IUserPayload) => {
   const { name, email, password, role } = payload;
@@ -15,6 +17,22 @@ const registerUserIntoDb = async (payload: IUserPayload) => {
    return result;
 };
 
+const loginUserIntoDB = async(payload:ILoginPayload)=>{
+   const {email, password} = payload;
+
+     const userData = await pool.query(`
+        SELECT * FROM users WHERE email=$1
+        `, [email]);
+
+    if(userData.rows.length === 0){
+        throw new AppError("User Not Found!", StatusCodes.NOT_FOUND)
+    }
+    const user = userData.rows[0];
+    console.log(user)
+
+}
+
 export const authService = {
   registerUserIntoDb,
+  loginUserIntoDB
 };

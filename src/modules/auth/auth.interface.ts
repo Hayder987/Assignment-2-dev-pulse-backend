@@ -6,3 +6,8 @@ export interface IUserPayload {
   password: string;
   role: "contributor" | "maintainer";
 };
+
+export interface ILoginPayload {
+    email: string;
+    password: string  
+};

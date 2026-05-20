@@ -1,5 +1,6 @@
 import express, { type Application, type Request, type Response } from "express";
 import { authRouter } from "./modules/auth/auth.route";
+import { globalErrorHandler } from "./middleware/globalErrorHandler";
 
 const app:Application = express();
 
@@ -14,5 +15,7 @@ app.get("/", (req:Request, res:Response)=>{
     message: "This Is root Route"
    })
 });
+
+app.use(globalErrorHandler)
 
 export default app;
