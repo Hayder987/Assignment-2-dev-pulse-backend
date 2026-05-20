@@ -27,7 +27,15 @@ const registerUser = async (req: Request, res: Response) => {
 // login user
 const loginUser = async (req: Request, res: Response) => {
   try {
-    const Result = await authService.loginUserIntoDB(req.body);
+    const result = await authService.loginUserIntoDB(req.body);
+
+    sendSuccessResponse(
+      res,
+      StatusCodes.OK,
+      "User Login successfully",
+      result,
+    );
+   
   } catch (error: unknown) {
     const statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
    return handleError({ res, statusCode, error });

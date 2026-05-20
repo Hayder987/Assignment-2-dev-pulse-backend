@@ -9,4 +9,5 @@ dotenv.config({
 export const config = {
     port: process.env.PORT,
     neonDbConnectionString: process.env.CONNECTIONSTRING,
+    accessSecret : process.env.ACCESSTOKENSECRET
 }

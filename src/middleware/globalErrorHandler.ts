@@ -24,5 +24,4 @@ export const globalErrorHandler = (
       statusCode,
     },
   });
-
 };
