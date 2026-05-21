@@ -5,6 +5,7 @@ import { AppError } from "../errors/appError";
 import jwt from "jsonwebtoken";
 import { config } from "../config/env.config";
 import type { JwtPayload } from "../interfaces/jwtpayload.interface";
+import { pool } from "../db";
 
 export const authMiddleware = async (
   req: Request,
@@ -15,7 +16,7 @@ export const authMiddleware = async (
     const token = req.headers.authorization;
 
     if (!token) {
-      throw new AppError("You Are Unauthorized", StatusCodes.UNAUTHORIZED);
+      throw new AppError("Unauthorized access", StatusCodes.UNAUTHORIZED);
     }
 
     const decoded = jwt.verify(
@@ -23,9 +24,18 @@ export const authMiddleware = async (
       config.accessSecret as string,
     ) as JwtPayload;
 
-    console.log(decoded)
+    const userData =await pool.query(`
+        SELECT * FROM users
+        WHERE id=$1
+        `,[decoded.id]);
+    
+    const user = userData.rows[0];
+    
+    if(!user){
+       throw new AppError("Unauthorized: User Not Found!!", StatusCodes.UNAUTHORIZED);
+    }
 
-
+   req.user = decoded;
 
     next();
   } catch (error) {
