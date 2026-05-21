@@ -4,6 +4,7 @@ import { handleError } from "../../utils/handleError";
 import { issueService } from "./issue.service";
 import { sendSuccessResponse } from "../../utils/sendSuccessResponse";
 
+
 const createIssue = async (req: Request, res: Response) => {
   try {
     const id = req.user?.id;
@@ -23,10 +24,14 @@ const createIssue = async (req: Request, res: Response) => {
 
 const getAllIssues = async (req: Request, res: Response) =>{
   try {
-    const result = await issueService.getAllIssuesFromDB(
-    req.query
-  );
-  
+    const result = await issueService.getAllIssuesFromDB(req.query);
+   
+  return sendSuccessResponse(
+      res,
+      StatusCodes.OK,
+      "All Issues Get successfully",
+      result,
+    );
   
   } catch (error) {
     const statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
