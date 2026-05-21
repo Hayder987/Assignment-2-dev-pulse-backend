@@ -1,5 +1,5 @@
 import { pool } from "../../db";
-import type { IIssue } from "./issue.interface";
+import type { IIssue, QueryParams } from "./issue.interface";
 
 const createIssueIntoDb = async(payload:IIssue, id:number)=>{
    const {title,  description, type, status} = payload; 
@@ -12,7 +12,11 @@ const createIssueIntoDb = async(payload:IIssue, id:number)=>{
    return result
 }
 
+const getAllIssuesFromDB = (query:QueryParams) =>{
+
+}
 
 export const issueService ={
-    createIssueIntoDb
+    createIssueIntoDb,
+    getAllIssuesFromDB
 }
