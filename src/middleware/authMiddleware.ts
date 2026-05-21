@@ -1,0 +1,35 @@
+import type { NextFunction, Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
+import { handleError } from "../utils/handleError";
+import { AppError } from "../errors/appError";
+import jwt from "jsonwebtoken";
+import { config } from "../config/env.config";
+import type { JwtPayload } from "../interfaces/jwtpayload.interface";
+
+export const authMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const token = req.headers.authorization;
+
+    if (!token) {
+      throw new AppError("You Are Unauthorized", StatusCodes.UNAUTHORIZED);
+    }
+
+    const decoded = jwt.verify(
+      token as string,
+      config.accessSecret as string,
+    ) as JwtPayload;
+
+    console.log(decoded)
+
+
+
+    next();
+  } catch (error) {
+    const statusCode = StatusCodes.UNAUTHORIZED;
+    return handleError({ res, statusCode, error });
+  }
+};
