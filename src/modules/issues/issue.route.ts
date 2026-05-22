@@ -6,6 +6,7 @@ import { roleAccess } from "../../middleware/roleAccess.middleware";
 import { USER_ROLES } from "../auth/auth.interface";
 import validateIssue from "./issue.validation";
 import { reqMethod } from "./issue.interface";
+import { AppError } from "../../errors/appError";
 
 
 const router = Router();
@@ -16,7 +17,8 @@ router.get("/:id", issueController.getSingleIssue);
 router.patch("/:id", authMiddleware(), validateIssue(reqMethod.patch), roleAccess(USER_ROLES.contributor, USER_ROLES.maintainer), issueController.updateIssue);
 router.delete("/:id",authMiddleware(), roleAccess(USER_ROLES.maintainer) , issueController.deleteIssue);
 
+router.all("/", (req, res, next) => {
+  next(new AppError("Method not allowed", 405));
+});
 
 export const issueRouter = router;
-
-// roleAccess( USER_ROLES.maintainer)
