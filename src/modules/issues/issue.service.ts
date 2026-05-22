@@ -140,7 +140,7 @@ const updateIssueIntoDB = async(id:string, payload:IIssueUpdate)=>{
     WHERE id=$4 RETURNING *
     `,[title, description, type, id]);
 
-    console.log(result.rows[0])
+   
 
 }
 
