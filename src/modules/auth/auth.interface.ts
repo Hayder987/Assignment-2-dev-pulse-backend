@@ -7,6 +7,7 @@ export interface IUserPayload {
   role?: "contributor" | "maintainer";
 };
 
+
 export interface ILoginPayload {
     email: string;
     password: string  
@@ -18,3 +19,10 @@ export const USER_ROLES = {
 } as const;
 
 export type Roles = "contributor" | "maintainer";
+
+export const AUTH_ACTION = {
+  register:"register",
+  login:"login"
+} as const;
+
+export type AuthAction = "register" | "login";
