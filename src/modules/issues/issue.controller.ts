@@ -1,9 +1,10 @@
 import type { Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
 import { handleError } from "../../utils/handleError";
 import { issueService } from "./issue.service";
 import { sendSuccessResponse } from "../../utils/sendSuccessResponse";
 import type { JwtPayload } from "../../interfaces/jwtpayload.interface";
+import { AppError } from "../../errors/appError";
+import { StatusCodes } from "http-status-codes";
 
 // create issue controller
 const createIssue = async (req: Request, res: Response) => {
@@ -82,11 +83,32 @@ const updateIssue = async (req: Request, res: Response)=>{
     const statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
     return handleError({ res, statusCode, error });
   }
+};
+
+const deleteIssue = async (req: Request, res: Response)=>{
+  try {
+    const id = req.params.id;
+    const user= req.user ;
+
+    const result = await issueService.deleteUserFromDB(id as string, user as JwtPayload);
+
+    sendSuccessResponse(
+      res,
+      StatusCodes.OK,
+      "Issue deleted successfully",
+    );
+     
+  } catch (error) {
+    console.log(error)
+    const statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+    return handleError({ res, statusCode, error });
+  }
 }
 
 export const issueController = {
   createIssue,
   getAllIssues,
   getSingleIssue,
-  updateIssue
+  updateIssue,
+  deleteIssue
 };

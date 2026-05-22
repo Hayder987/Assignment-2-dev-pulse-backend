@@ -8,7 +8,7 @@ export const sendSuccessResponse = <T>(
   res: Response,
   statusCode: StatusCodes,
   message: string,
-  data: T
+  data?: T
 ): Response<ISuccessResponse<T>> => {
   return res.status(statusCode).json({
     success: true,

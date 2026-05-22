@@ -14,6 +14,9 @@ router.post('/', authMiddleware(), validateIssue(reqMethod.post), issueControlle
 router.get("/", issueController.getAllIssues);
 router.get("/:id", issueController.getSingleIssue);
 router.patch("/:id", authMiddleware(), validateIssue(reqMethod.patch), roleAccess(USER_ROLES.contributor, USER_ROLES.maintainer), issueController.updateIssue);
+router.delete("/:id",authMiddleware(), roleAccess(USER_ROLES.maintainer) , issueController.deleteIssue);
 
 
 export const issueRouter = router;
+
+// roleAccess( USER_ROLES.maintainer)

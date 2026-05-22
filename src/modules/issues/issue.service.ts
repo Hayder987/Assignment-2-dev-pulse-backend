@@ -170,9 +170,32 @@ const updateIssueIntoDB = async (
   return result.rows[0];
 };
 
+const deleteUserFromDB =async (id:string, user: JwtPayload)=>{
+  
+  const issueResult = await pool.query(
+    `SELECT * FROM issues WHERE id=$1`,
+    [id]
+  );
+
+  if (issueResult.rowCount === 0) {
+    throw new AppError(
+      "Issue not found",
+      StatusCodes.NOT_FOUND
+    );
+  }
+
+  await pool.query(
+    `DELETE FROM issues WHERE id=$1`,
+    [id]
+  );
+
+  return true;
+}
+
 export const issueService = {
   createIssueIntoDb,
   getAllIssuesFromDB,
   getSingleIssueFromDB,
   updateIssueIntoDB,
+  deleteUserFromDB
 };
