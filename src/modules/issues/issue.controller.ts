@@ -22,7 +22,7 @@ const createIssue = async (req: Request, res: Response) => {
   }
 };
 
-// get all issues
+// get all issues controller
 const getAllIssues = async (req: Request, res: Response) =>{
   try {
     const result = await issueService.getAllIssuesFromDB(req.query);
@@ -38,9 +38,31 @@ const getAllIssues = async (req: Request, res: Response) =>{
     const statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
     return handleError({ res, statusCode, error });
   }
+};
+
+// get single issue
+const getSingleIssue = async (req: Request, res: Response)=>{
+   try {
+    const {id} = req.params;
+    console.log(id)
+
+    const result = await issueService.getSingleIssueFromDB(id as string);
+
+    return sendSuccessResponse(
+      res,
+      StatusCodes.OK,
+      "Issue Retrieve successfully",
+      result.rows[0],
+    );
+    
+   } catch (error) {
+    const statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+    return handleError({ res, statusCode, error });
+   }
 }
 
 export const issueController = {
   createIssue,
-  getAllIssues
+  getAllIssues,
+  getSingleIssue
 };

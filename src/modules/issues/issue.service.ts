@@ -67,11 +67,23 @@ const getAllIssuesFromDB = async(query:QueryParams) =>{
   }
 
   return finalResult;
+};
 
-  
+
+const getSingleIssueFromDB = async(id:string) =>{
+  const issue = await pool.query(`
+    SELECT * FROM issues 
+    WHERE id=$1
+    `,[id]);
+
+    console.log(issue)
+
+  return issue
 }
+
 
 export const issueService ={
     createIssueIntoDb,
-    getAllIssuesFromDB
+    getAllIssuesFromDB,
+    getSingleIssueFromDB
 }
