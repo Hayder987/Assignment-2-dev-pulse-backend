@@ -8,7 +8,7 @@ const validateUser = (req: Request, res: Response, next: NextFunction) => {
     throw new AppError(`Request body is missing`, StatusCodes.BAD_REQUEST);
   }
 
-  const { name, email, password, role } = req.body as IUserPayload;g
+  const { name, email, password, role } = req.body as IUserPayload;
 
   if (!name) {
     throw new AppError(
