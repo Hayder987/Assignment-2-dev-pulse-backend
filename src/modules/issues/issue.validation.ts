@@ -34,24 +34,24 @@ const validateIssue = (method: ReqMethod) => {
       }
 
       if (title && title.length > 150) {
-        return sendValidationError("Title max 150 chars");
+        return sendValidationError("Title maximum 150 chars not allow");
       }
 
       if (description && description.length < 20) {
-        return sendValidationError("Description min 20 chars");
+        return sendValidationError("Description will be min 20 chars");
       }
 
       if (type) {
         const validTypes = ["bug", "feature_request"];
         if (!validTypes.includes(type)) {
-          return sendValidationError("Invalid type");
+          return sendValidationError("Invalid type type must be 'bug' or 'feature_request'");
         }
       }
 
       if (status) {
         const validStatus = ["open", "in_progress", "resolved"];
         if (!validStatus.includes(status)) {
-          return sendValidationError("Invalid status");
+          return sendValidationError("Invalid status status must be 'open' or 'in_progress' or 'resolved'");
         }
       }
 

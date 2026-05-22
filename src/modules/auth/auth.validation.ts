@@ -1,66 +1,71 @@
 import type { NextFunction, Request, Response } from "express";
+import { sendValidationError } from "../../utils/sendValidationError";
 import type { IUserPayload, Roles } from "./auth.interface";
-import { StatusCodes } from "http-status-codes";
-import { AppError } from "../../errors/appError";
+
 
 const validateUser = (req: Request, res: Response, next: NextFunction) => {
-  if (!req.body) {
-    throw new AppError(`Request body is missing`, StatusCodes.BAD_REQUEST);
-  }
+  try {
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return sendValidationError("Request body is missing");
+    }
 
-  const { name, email, password, role } = req.body as IUserPayload;
+    const { name, email, password, role } = req.body as IUserPayload;
 
-  if (!name) {
-    throw new AppError(
-      `Name is required and type will be string/text`,
-      StatusCodes.BAD_REQUEST,
-    );
-  }
+    if (!name) {
+      return sendValidationError("Name is required");
+    }
 
-   if (typeof(name) !== "string") {
-    throw new AppError("Invalid name data type example:('hayder ali' or 'akash')", StatusCodes.BAD_REQUEST);
-   }
+    if (typeof name !== "string") {
+      return sendValidationError("Name must be a string");
+    }
 
-  if (name.length < 2) {
-    throw new AppError(
-      "Name must be at least 2 characters",
-      StatusCodes.BAD_REQUEST,
-    );
-  }
-
-  // check email and email format
-  //  create only regex with Ai
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!email) {
-    throw new AppError("Email is required and type will be string/text", StatusCodes.BAD_REQUEST);
-  }
-
-  if (!emailRegex.test(email)) {
-    throw new AppError("Invalid email format ex: (example@gmail.com)", StatusCodes.BAD_REQUEST);
-  }
-
-  //  check password if exist
-  if (!password) {
-    throw new AppError("Password is required and type will be string", StatusCodes.BAD_REQUEST);
-  }
-
-   if (typeof(password) !== "string") {
-    throw new AppError("Invalid password format type will be string example:('abc2525' or '125465')", StatusCodes.BAD_REQUEST);
-   }
-
-  if (role) {
-    const validRoles: Roles[] = ["contributor", "maintainer"];
-
-    if (!validRoles.includes(role)) {
-      throw new AppError(
-        "Role must be 'contributor' or 'maintainer'",
-        StatusCodes.BAD_REQUEST,
+    if (name.trim().length < 2) {
+      return sendValidationError(
+        "Name must be at least 2 characters"
       );
     }
-  }
+    
+     // check email and email format
+    //  create only regex with Ai
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  next();
+    if (!email) {
+      return sendValidationError("Email is required");
+    }
+
+    if (typeof email !== "string") {
+      return sendValidationError("Email must be a string");
+    }
+
+    if (!emailRegex.test(email)) {
+      return sendValidationError(
+        "Invalid email format (example: test@gmail.com)"
+      );
+    }
+
+    //  check password if exist and type
+    if (!password) {
+      return sendValidationError("Password is required");
+    }
+
+    if (typeof password !== "string") {
+      return sendValidationError("Password must be a string");
+    }
+
+    if (role) {
+      const validRoles: Roles[] = ["contributor", "maintainer"];
+
+      if (!validRoles.includes(role)) {
+        return sendValidationError(
+          "Role must be 'contributor' or 'maintainer'"
+        );
+      }
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
 
 export default validateUser;
