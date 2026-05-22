@@ -1,6 +1,6 @@
 import { pool } from "../../db";
 import { AppError } from "../../errors/appError";
-import type { IIssue, QueryParams } from "./issue.interface";
+import type { IIssue, IIssueUpdate, QueryParams } from "./issue.interface";
 import { StatusCodes } from "http-status-codes";
 
 // create issue
@@ -117,8 +117,31 @@ const getSingleIssueFromDB = async(id:string) =>{
   
 };
 
-const updateIssueIntoDB = (id:string, payload:IIssue)=>{
- console.log({id, payload});
+const updateIssueIntoDB = async(id:string, payload:IIssueUpdate)=>{
+
+  const {title, description, type} = payload;
+
+ const issueData = await pool.query(`
+    SELECT * FROM issues
+    WHERE id=$1
+  `,[id]);
+
+  const issue = issueData.rows[0];
+  
+   if(!issue){
+    throw new AppError("Issue Not Found!", StatusCodes.NOT_FOUND);
+  }
+
+  const result = await pool.query(`
+    UPDATE issues
+    SET title=COALESCE($1,title),
+        description=COALESCE($2,description),
+        type=COALESCE($3,type)
+    WHERE id=$4 RETURNING *
+    `,[title, description, type, id]);
+
+    console.log(result.rows[0])
+
 }
 
 
