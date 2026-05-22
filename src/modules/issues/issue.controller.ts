@@ -52,7 +52,7 @@ const getSingleIssue = async (req: Request, res: Response)=>{
       res,
       StatusCodes.OK,
       "Issue Retrieve successfully",
-      result.rows[0],
+      result,
     );
     
    } catch (error) {

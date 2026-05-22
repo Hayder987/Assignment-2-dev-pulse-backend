@@ -1,5 +1,7 @@
 import { pool } from "../../db";
+import { AppError } from "../../errors/appError";
 import type { IIssue, QueryParams } from "./issue.interface";
+import { StatusCodes } from "http-status-codes";
 
 // create issue
 const createIssueIntoDb = async(payload:IIssue, id:number)=>{
@@ -71,15 +73,49 @@ const getAllIssuesFromDB = async(query:QueryParams) =>{
 
 
 const getSingleIssueFromDB = async(id:string) =>{
-  const issue = await pool.query(`
+  const issueData = await pool.query(`
     SELECT * FROM issues 
     WHERE id=$1
     `,[id]);
 
-    console.log(issue)
+  const issue = issueData.rows[0]
+  
+  if(!issue){
+    throw new AppError("Issue Not Found!", StatusCodes.NOT_FOUND);
+  }
 
-  return issue
-}
+  const reporterResult = await pool.query(
+    `
+      SELECT id, name, role
+      FROM users
+      WHERE id=$1
+    `,
+    [issue.reporter_id]
+  );
+
+  const reporter = reporterResult.rows[0];
+  
+  
+  const result = {
+    id: issue.id,
+    title: issue.title,
+    description: issue.description,
+    type: issue.type,
+    status: issue.status,
+
+    reporter: {
+      id: reporter.id,
+      name: reporter.name,
+      role: reporter.role,
+    },
+
+    created_at: issue.created_at,
+    updated_at: issue.updated_at,
+  };
+
+  return result;
+  
+};
 
 
 export const issueService ={
