@@ -4,7 +4,7 @@ import { handleError } from "../../utils/handleError";
 import { issueService } from "./issue.service";
 import { sendSuccessResponse } from "../../utils/sendSuccessResponse";
 
-
+// create issue controller
 const createIssue = async (req: Request, res: Response) => {
   try {
     const id = req.user?.id;
@@ -22,6 +22,7 @@ const createIssue = async (req: Request, res: Response) => {
   }
 };
 
+// get all issues
 const getAllIssues = async (req: Request, res: Response) =>{
   try {
     const result = await issueService.getAllIssuesFromDB(req.query);

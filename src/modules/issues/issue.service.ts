@@ -37,6 +37,37 @@ const getAllIssuesFromDB = async(query:QueryParams) =>{
     sort === "oldest" ? "ASC" : "DESC"
   }`;
 
+
+  const issuesResult = await pool.query(result, values);
+
+  const issues = issuesResult.rows;
+
+  const finalResult = [];
+
+  for (const issue of issues) {
+    const reporterResult = await pool.query(
+      `
+      SELECT id, name, role
+      FROM users
+      WHERE id=$1
+      `,
+      [issue.reporter_id],
+    );
+
+    finalResult.push({
+      id: issue.id,
+      title: issue.title,
+      description: issue.description,
+      type: issue.type,
+      status: issue.status,
+      reporter: reporterResult.rows[0],
+      created_at: issue.created_at,
+      updated_at: issue.updated_at,
+    });
+  }
+
+  return finalResult;
+
   
 }
 
