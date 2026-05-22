@@ -4,7 +4,8 @@ import { AppError } from "../errors/appError";
 import jwt from "jsonwebtoken";
 import { config } from "../config/env.config";
 import type { JwtPayload } from "../interfaces/jwtpayload.interface";
-import { pool } from "../db";
+import { pool } from "../db/pool";
+
 
 export const authMiddleware = () => {
   

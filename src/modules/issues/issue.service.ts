@@ -1,4 +1,5 @@
-import { pool } from "../../db";
+
+import { pool } from "../../db/pool";
 import { AppError } from "../../errors/appError";
 import type { JwtPayload } from "../../interfaces/jwtpayload.interface";
 import type { IIssue, IIssueUpdate, QueryParams } from "./issue.interface";

@@ -1,6 +1,7 @@
 import app from "./app"
 import { config } from "./config/env.config";
-import { initDB } from "./db";
+import { initDB } from "./db/db.init";
+
 
 
 const main = ()=>{

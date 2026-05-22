@@ -3,7 +3,8 @@ import { sendValidationError } from "../../utils/sendValidationError";
 import type { IUserPayload, Roles } from "./auth.interface";
 
 
-const validateUser = (req: Request, res: Response, next: NextFunction) => {
+const validateUser = (method:any)=>{
+  return async(req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.body || Object.keys(req.body).length === 0) {
       return sendValidationError("Request body is missing");
@@ -67,5 +68,6 @@ const validateUser = (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
+}
 
 export default validateUser;

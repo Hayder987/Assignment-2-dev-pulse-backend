@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs";
-import { pool } from "../../db";
 import type { ILoginPayload, IUserPayload } from "./auth.interface";
 import { AppError } from "../../errors/appError";
 import { StatusCodes } from "http-status-codes";
 import jwt  from "jsonwebtoken";
 import { config } from "../../config/env.config";
+import { pool } from "../../db/pool";
 
 // sign-up user 
 const registerUserIntoDb = async (payload: IUserPayload) => {
