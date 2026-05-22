@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { handleError } from "../../utils/handleError";
 import { issueService } from "./issue.service";
 import { sendSuccessResponse } from "../../utils/sendSuccessResponse";
+import type { JwtPayload } from "../../interfaces/jwtpayload.interface";
 
 // create issue controller
 const createIssue = async (req: Request, res: Response) => {
@@ -61,13 +62,21 @@ const getSingleIssue = async (req: Request, res: Response)=>{
    }
 };
 
+// update issue controller
 const updateIssue = async (req: Request, res: Response)=>{
   try {
 
     const {id} = req.params;
-    const body = req.body;
+    const payload = req.body;
+    const user = req.user;
 
-    const result = await issueService.updateIssueIntoDB(id as string, body) 
+    const result = await issueService.updateIssueIntoDB(id as string, payload, user as JwtPayload) 
+    return sendSuccessResponse(
+      res,
+      StatusCodes.OK,
+      "Issue updated successfully",
+      result,
+    );
     
   } catch (error) {
     const statusCode = StatusCodes.INTERNAL_SERVER_ERROR;

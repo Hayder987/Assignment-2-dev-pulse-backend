@@ -1,28 +1,31 @@
 import { pool } from "../../db";
 import { AppError } from "../../errors/appError";
-import type { IIssue, IIssueUpdate, QueryParams } from "./issue.interface";
+import type { JwtPayload } from "../../interfaces/jwtpayload.interface";
+import type { IIssue, QueryParams } from "./issue.interface";
 import { StatusCodes } from "http-status-codes";
 
 // create issue
-const createIssueIntoDb = async(payload:IIssue, id:number)=>{
-   const {title,  description, type, status} = payload; 
+const createIssueIntoDb = async (payload: IIssue, id: number) => {
+  const { title, description, type, status } = payload;
 
-   const result = await pool.query(`
+  const result = await pool.query(
+    `
       INSERT INTO issues(title, description, type, status, reporter_id)
       VALUES($1, $2, $3, COALESCE($4, 'open'), $5)
       RETURNING *
-    `,[title, description, type, status, id])
-   return result
-}
+    `,
+    [title, description, type, status, id],
+  );
+  return result;
+};
 
 // get all issue with sort
-const getAllIssuesFromDB = async(query:QueryParams) =>{
-   const { sort = "newest", type, status } = query;
+const getAllIssuesFromDB = async (query: QueryParams) => {
+  const { sort = "newest", type, status } = query;
 
   let result = `SELECT * FROM issues`;
   const values: string[] = [];
 
- 
   if (type && status) {
     result += ` WHERE type=$1 AND status=$2`;
     values.push(type, status);
@@ -34,11 +37,7 @@ const getAllIssuesFromDB = async(query:QueryParams) =>{
     values.push(status);
   }
 
-  
-  result += ` ORDER BY created_at ${
-    sort === "oldest" ? "ASC" : "DESC"
-  }`;
-
+  result += ` ORDER BY created_at ${sort === "oldest" ? "ASC" : "DESC"}`;
 
   const issuesResult = await pool.query(result, values);
 
@@ -71,16 +70,18 @@ const getAllIssuesFromDB = async(query:QueryParams) =>{
   return finalResult;
 };
 
-
-const getSingleIssueFromDB = async(id:string) =>{
-  const issueData = await pool.query(`
+const getSingleIssueFromDB = async (id: string) => {
+  const issueData = await pool.query(
+    `
     SELECT * FROM issues 
     WHERE id=$1
-    `,[id]);
+    `,
+    [id],
+  );
 
-  const issue = issueData.rows[0]
-  
-  if(!issue){
+  const issue = issueData.rows[0];
+
+  if (!issue) {
     throw new AppError("Issue Not Found!", StatusCodes.NOT_FOUND);
   }
 
@@ -90,12 +91,11 @@ const getSingleIssueFromDB = async(id:string) =>{
       FROM users
       WHERE id=$1
     `,
-    [issue.reporter_id]
+    [issue.reporter_id],
   );
 
   const reporter = reporterResult.rows[0];
-  
-  
+
   const result = {
     id: issue.id,
     title: issue.title,
@@ -114,40 +114,64 @@ const getSingleIssueFromDB = async(id:string) =>{
   };
 
   return result;
-  
 };
 
-const updateIssueIntoDB = async(id:string, payload:IIssueUpdate)=>{
+const updateIssueIntoDB = async (
+  id: string,
+  payload: IIssue,
+  user: JwtPayload,
+) => {
+  const { title, description, type , status} = payload;
 
-  const {title, description, type} = payload;
-
- const issueData = await pool.query(`
+  const issueData = await pool.query(
+    `
     SELECT * FROM issues
     WHERE id=$1
-  `,[id]);
+  `,
+    [id],
+  );
 
   const issue = issueData.rows[0];
-  
-   if(!issue){
+
+  if (!issue) {
     throw new AppError("Issue Not Found!", StatusCodes.NOT_FOUND);
   }
 
-  const result = await pool.query(`
+  if (user.role === "maintainer") {
+  } else if (user.role === "contributor") {
+    if (issue.reporter_id !== user.id) {
+      throw new AppError(
+        "You cannot update others issue",
+        StatusCodes.FORBIDDEN,
+      );
+    }
+
+    if (issue.status !== "open") {
+      throw new AppError(
+        "You can only update open issues",
+        StatusCodes.CONFLICT,
+      );
+    }
+  }
+
+  const result = await pool.query(
+    `
     UPDATE issues
     SET title=COALESCE($1,title),
         description=COALESCE($2,description),
-        type=COALESCE($3,type)
-    WHERE id=$4 RETURNING *
-    `,[title, description, type, id]);
+        type=COALESCE($3,type),
+        status=COALESCE($4, status)
+    WHERE id=$5 RETURNING *
+    `,
+    [title, description, type, status, id],
+  );
 
-   
+  return result.rows[0];
+};
 
-}
-
-
-export const issueService ={
-    createIssueIntoDb,
-    getAllIssuesFromDB,
-    getSingleIssueFromDB,
-    updateIssueIntoDB
+export const issueService = {
+  createIssueIntoDb,
+  getAllIssuesFromDB,
+  getSingleIssueFromDB,
+  updateIssueIntoDB,
 };
