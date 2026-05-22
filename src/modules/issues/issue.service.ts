@@ -160,7 +160,8 @@ const updateIssueIntoDB = async (
     SET title=COALESCE($1,title),
         description=COALESCE($2,description),
         type=COALESCE($3,type),
-        status=COALESCE($4, status)
+        status=COALESCE($4, status),
+        updated_at=CURRENT_TIMESTAMP
     WHERE id=$5 RETURNING *
     `,
     [title, description, type, status, id],

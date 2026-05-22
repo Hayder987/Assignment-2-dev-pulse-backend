@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { AppError } from "../errors/appError";
 import { StatusCodes } from "http-status-codes";
-import type { Roles } from "../types";
+import type { Roles } from "../modules/auth/auth.interface";
 
 export const roleAccess = (...roles:Roles[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {

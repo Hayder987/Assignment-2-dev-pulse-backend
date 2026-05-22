@@ -17,3 +17,11 @@ export interface QueryParams {
   type?: string;
   status?: string;
 };
+
+export const reqMethod ={
+  post : "POST",
+  patch : "PATCH"
+} as const;
+
+
+export type ReqMethod = "POST" | "PATCH";
