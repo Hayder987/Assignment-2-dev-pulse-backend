@@ -7,7 +7,7 @@ import type { ISuccessResponse } from "../interfaces/successResponse.interface";
 export const sendSuccessResponse = <T>(
   res: Response,
   statusCode: StatusCodes,
-  message: string,
+  message?: string,
   data?: T
 ): Response<ISuccessResponse<T>> => {
   return res.status(statusCode).json({

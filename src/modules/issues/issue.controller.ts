@@ -10,6 +10,7 @@ import { StatusCodes } from "http-status-codes";
 const createIssue = async (req: Request, res: Response) => {
   try {
     const id = req.user?.id;
+    
     const result = await issueService.createIssueIntoDb(req.body, id as number);
 
     return sendSuccessResponse(

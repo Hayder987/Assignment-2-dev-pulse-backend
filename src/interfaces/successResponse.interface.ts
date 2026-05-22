@@ -2,6 +2,6 @@
 
 export interface ISuccessResponse<T> {
   success: true;
-  message: string;
+  message?: string;
   data?: T;
 }
