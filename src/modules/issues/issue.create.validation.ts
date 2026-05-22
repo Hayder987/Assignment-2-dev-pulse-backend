@@ -2,9 +2,9 @@
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { AppError } from "../../errors/appError";
-import type { IIssue } from "../issues/issue.interface";
+import type { IIssue } from "./issue.interface";
 
-const validateIssue = (
+const validatePostIssue = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -80,4 +80,4 @@ const validateIssue = (
   next();
 };
 
-export default validateIssue;
+export default validatePostIssue;

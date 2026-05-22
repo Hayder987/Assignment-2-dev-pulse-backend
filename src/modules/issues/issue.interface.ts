@@ -1,11 +1,16 @@
 
+export type IssueType = "bug" | "feature_request";
+
+export type IssueStatus = "open" | "in_progress" | "resolved";
 
 export interface IIssue {
   title: string;
   description: string;
-  type: "bug" | "feature_request";
-  status?: "open" | "in_progress" | "resolved" ;
+  type: IssueType;
+  status?: IssueStatus;
 };
+
+export type IIssueUpdate = Partial<IIssue>;
 
 export interface QueryParams {
   sort?: string;

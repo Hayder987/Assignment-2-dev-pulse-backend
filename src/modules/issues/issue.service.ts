@@ -1,7 +1,7 @@
 import { pool } from "../../db";
 import { AppError } from "../../errors/appError";
 import type { JwtPayload } from "../../interfaces/jwtpayload.interface";
-import type { IIssue, QueryParams } from "./issue.interface";
+import type { IIssue, IIssueUpdate, QueryParams } from "./issue.interface";
 import { StatusCodes } from "http-status-codes";
 
 // create issue
@@ -118,7 +118,7 @@ const getSingleIssueFromDB = async (id: string) => {
 
 const updateIssueIntoDB = async (
   id: string,
-  payload: IIssue,
+  payload: IIssueUpdate,
   user: JwtPayload,
 ) => {
   const { title, description, type , status} = payload;
