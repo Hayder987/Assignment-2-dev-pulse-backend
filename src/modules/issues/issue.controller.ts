@@ -59,10 +59,25 @@ const getSingleIssue = async (req: Request, res: Response)=>{
     const statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
     return handleError({ res, statusCode, error });
    }
+};
+
+const updateIssue = async (req: Request, res: Response)=>{
+  try {
+
+    const {id} = req.params;
+    const body = req.body;
+
+    const result = await issueService.updateIssueIntoDB(id as string, body) 
+    
+  } catch (error) {
+    const statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+    return handleError({ res, statusCode, error });
+  }
 }
 
 export const issueController = {
   createIssue,
   getAllIssues,
-  getSingleIssue
+  getSingleIssue,
+  updateIssue
 };

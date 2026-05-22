@@ -117,9 +117,14 @@ const getSingleIssueFromDB = async(id:string) =>{
   
 };
 
+const updateIssueIntoDB = (id:string, payload:IIssue)=>{
+ console.log({id, payload});
+}
+
 
 export const issueService ={
     createIssueIntoDb,
     getAllIssuesFromDB,
-    getSingleIssueFromDB
-}
+    getSingleIssueFromDB,
+    updateIssueIntoDB
+};
