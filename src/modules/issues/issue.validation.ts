@@ -66,7 +66,7 @@ const validateIssue = (method: ReqMethod) => {
       const validStatus = ["open", "in_progress", "resolved"];
 
       if (!validStatus.includes(status)) {
-        throw new AppError("Invalid status value", StatusCodes.BAD_REQUEST);
+        throw new AppError("status must be 'open' or 'in_progress' or 'resolved'", StatusCodes.BAD_REQUEST);
       }
     }
 

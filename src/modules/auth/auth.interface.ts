@@ -4,7 +4,7 @@ export interface IUserPayload {
   name: string;
   email: string;
   password: string;
-  role: "contributor" | "maintainer";
+  role?: "contributor" | "maintainer";
 };
 
 export interface ILoginPayload {
