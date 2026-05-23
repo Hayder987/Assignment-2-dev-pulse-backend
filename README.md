@@ -35,64 +35,65 @@ DevPulse is a role-based issue tracking system where:
 
 ## 📁 Project Structure
 
-### DEV_PULSE_BACKEND
-use Modular pattern
+DEV_PULSE_BACKEND/
 │
-├── src
+├── src/
+│   │
 │   ├── config/
 │   │   └── env.config.ts
-│
+│   │
 │   ├── db/
 │   │   ├── pool.ts
 │   │   ├── db.init.ts
+│   │   │
 │   │   └── schema/
 │   │       ├── user.schema.ts
 │   │       └── issue.schema.ts
-│
+│   │
 │   ├── errors/
 │   │   └── appError.ts
-│
+│   │
 │   ├── interfaces/
 │   │   ├── errorHandler.interface.ts
 │   │   ├── errorResponse.interface.ts
 │   │   ├── jwtPayload.interface.ts
 │   │   └── successResponse.interface.ts
-│
+│   │
 │   ├── middleware/
 │   │   ├── authMiddleware.ts
 │   │   ├── globalErrorHandler.ts
-│   │   ├── index.d.ts
-│   │   └── roleAccess.middleware.ts
-│
+│   │   ├── roleAccess.middleware.ts
+│   │   └── index.d.ts
+│   │
 │   ├── modules/
 │   │   ├── auth/
-│   │   │   ├──auth.controller.ts
-│   │   │   ├──auth.interface.ts
-│   │   │   ├──auth.route.ts
-│   │   │   ├──auth.service.ts
-│   │   │   ├──auth.validation.ts
+│   │   │   ├── auth.controller.ts
+│   │   │   ├── auth.service.ts
+│   │   │   ├── auth.route.ts
+│   │   │   ├── auth.interface.ts
+│   │   │   └── auth.validation.ts
+│   │   │
 │   │   └── issues/
 │   │       ├── issue.controller.ts
-│   │       ├── issue.interface.ts
-│   │       ├── issue.route.ts
 │   │       ├── issue.service.ts
+│   │       ├── issue.route.ts
+│   │       ├── issue.interface.ts
 │   │       └── issue.validation.ts
-│
+│   │
 │   ├── utils/
 │   │   ├── handleError.ts
 │   │   ├── sendErrorResponse.ts
 │   │   ├── sendSuccessResponse.ts
 │   │   └── sendValidationError.ts
-│
+│   │
 │   ├── app.ts
 │   └── server.ts
 │
 ├── .env
 ├── .env.local.example
 ├── package.json
-├── package.json
-└── tsconfig.json
-
+├── tsconfig.json
+└── README.md
 
 
 ---
