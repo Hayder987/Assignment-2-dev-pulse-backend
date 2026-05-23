@@ -40,30 +40,36 @@ DEV_PULSE_BACKEND/
 ├── src/
 │   │
 │   ├── config/
-│   │   └── env.config.ts
+│   │   ├── env.config.ts
+│   │   └── README.md
 │   │
 │   ├── db/
 │   │   ├── pool.ts
 │   │   ├── db.init.ts
+│   │   ├── README.md
 │   │   │
 │   │   └── schema/
 │   │       ├── user.schema.ts
-│   │       └── issue.schema.ts
+│   │       ├── issue.schema.ts
+│   │       └── README.md
 │   │
 │   ├── errors/
-│   │   └── appError.ts
+│   │   ├── appError.ts
+│   │   └── README.md
 │   │
 │   ├── interfaces/
 │   │   ├── errorHandler.interface.ts
 │   │   ├── errorResponse.interface.ts
 │   │   ├── jwtPayload.interface.ts
-│   │   └── successResponse.interface.ts
+│   │   ├── successResponse.interface.ts
+│   │   └── README.md
 │   │
 │   ├── middleware/
 │   │   ├── authMiddleware.ts
 │   │   ├── globalErrorHandler.ts
 │   │   ├── roleAccess.middleware.ts
-│   │   └── index.d.ts
+│   │   ├── index.d.ts
+│   │   └── README.md
 │   │
 │   ├── modules/
 │   │   ├── auth/
@@ -71,20 +77,23 @@ DEV_PULSE_BACKEND/
 │   │   │   ├── auth.service.ts
 │   │   │   ├── auth.route.ts
 │   │   │   ├── auth.interface.ts
-│   │   │   └── auth.validation.ts
+│   │   │   ├── auth.validation.ts
+│   │   │   └── README.md
 │   │   │
 │   │   └── issues/
 │   │       ├── issue.controller.ts
 │   │       ├── issue.service.ts
 │   │       ├── issue.route.ts
 │   │       ├── issue.interface.ts
-│   │       └── issue.validation.ts
+│   │       ├── issue.validation.ts
+│   │       └── README.md
 │   │
 │   ├── utils/
 │   │   ├── handleError.ts
 │   │   ├── sendErrorResponse.ts
 │   │   ├── sendSuccessResponse.ts
-│   │   └── sendValidationError.ts
+│   │   ├── sendValidationError.ts
+│   │   └── README.md
 │   │
 │   ├── app.ts
 │   └── server.ts
