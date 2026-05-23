@@ -8,6 +8,7 @@ export const roleAccess = (...roles:Roles[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = req.user;
+     
 
       if (!user) {
         throw new AppError("Unauthorized", StatusCodes.UNAUTHORIZED);

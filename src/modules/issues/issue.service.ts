@@ -2,6 +2,7 @@
 import { pool } from "../../db/pool";
 import { AppError } from "../../errors/appError";
 import type { JwtPayload } from "../../interfaces/jwtpayload.interface";
+import { USER_ROLES } from "../auth/auth.interface";
 import type { IIssue, IIssueUpdate, QueryParams } from "./issue.interface";
 import { StatusCodes } from "http-status-codes";
 

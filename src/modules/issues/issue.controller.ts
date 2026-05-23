@@ -90,7 +90,7 @@ const deleteIssue = async (req: Request, res: Response)=>{
     const id = req.params.id;
     const user= req.user ;
 
-    const result = await issueService.deleteUserFromDB(id as string, user as JwtPayload);
+     await issueService.deleteUserFromDB(id as string, user as JwtPayload);
 
     sendSuccessResponse(
       res,
