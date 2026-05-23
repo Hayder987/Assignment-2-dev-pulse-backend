@@ -33,6 +33,12 @@ DevPulse is a role-based issue tracking system where:
 
 ---
 
+## 🌐 Live API
+
+## Live API Link
+The API is deployed and live at:
+👉 **[https://assignment-2-dev-pulse-backend.onrender.com](https://assignment-2-dev-pulse-backend.onrender.com)**
+
 ## 📁 Project Structure
 
 DEV_PULSE_BACKEND/
