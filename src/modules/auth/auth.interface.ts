@@ -1,5 +1,5 @@
 
-
+// user post method payload type
 export interface IUserPayload {
   name: string;
   email: string;
@@ -7,12 +7,13 @@ export interface IUserPayload {
   role?: "contributor" | "maintainer";
 };
 
-
+// user login method payload type
 export interface ILoginPayload {
     email: string;
     password: string  
 };
 
+// user role type
 export const USER_ROLES = {
     contributor:"contributor",
     maintainer : "maintainer"

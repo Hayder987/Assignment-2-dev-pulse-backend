@@ -1,4 +1,5 @@
 
+// create issue Table
 export const issueSchema = `
         CREATE TABLE IF NOT EXISTS issues (
         id SERIAL PRIMARY KEY,

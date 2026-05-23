@@ -41,6 +41,7 @@ const loginUserIntoDB = async(payload:ILoginPayload)=>{
         throw new AppError("Wrong PassWord! Login Fail", StatusCodes.UNAUTHORIZED)
     }
 
+    // create jwt payload for auth user
     const jwtPayload = {
         id: user?.id,
         name:user?.name,

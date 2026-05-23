@@ -18,7 +18,6 @@ const registerUser = async (req: Request, res: Response) => {
     );
 
   } catch (error: unknown) {
-
     const statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
     handleError({ res, statusCode, error });
   }

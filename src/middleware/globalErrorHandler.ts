@@ -22,6 +22,7 @@ export const globalErrorHandler = (
     message = err.message;
   }
 
+  // send global response 
   return res.status(statusCode).json({
     success: false,
     message,

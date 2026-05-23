@@ -1,4 +1,5 @@
 
+// create user Table
 export const userSchema = `
         CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,

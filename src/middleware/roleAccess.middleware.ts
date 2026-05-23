@@ -3,6 +3,7 @@ import { AppError } from "../errors/appError";
 import { StatusCodes } from "http-status-codes";
 import type { Roles } from "../modules/auth/auth.interface";
 
+// check role wise  authentication
 export const roleAccess = (...roles:Roles[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -12,6 +13,7 @@ export const roleAccess = (...roles:Roles[]) => {
         throw new AppError("Unauthorized", StatusCodes.UNAUTHORIZED);
       }
       
+      // check user role exist
       if(!roles.includes(user.role)){
         throw new AppError("You do not have permission", StatusCodes.FORBIDDEN);
       }

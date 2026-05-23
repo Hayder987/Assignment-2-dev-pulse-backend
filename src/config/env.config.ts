@@ -6,6 +6,7 @@ dotenv.config({
     path: path.join(process.cwd(), ".env")
 });
 
+// export env 
 export const config = {
     port: process.env.PORT,
     neonDbConnectionString: process.env.CONNECTIONSTRING,

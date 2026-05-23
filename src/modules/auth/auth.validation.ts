@@ -49,7 +49,8 @@ const validateUser = (method: AuthAction) => {
           return sendValidationError(
             "Name must be at least 2 characters"
           );
-
+        
+          // check email type and format
         if (typeof email !== "string")
           return sendValidationError("Email must be a string");
 
@@ -58,7 +59,8 @@ const validateUser = (method: AuthAction) => {
             "Invalid email format (example: test@gmail.com)"
           );
         }
-
+        
+        // check password type 
         if (typeof password !== "string")
           return sendValidationError("Password must be a string");
 

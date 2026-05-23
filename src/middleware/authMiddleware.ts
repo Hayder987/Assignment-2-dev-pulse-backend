@@ -7,6 +7,7 @@ import type { JwtPayload } from "../interfaces/jwtpayload.interface";
 import { pool } from "../db/pool";
 
 
+// authmiddleware create
 export const authMiddleware = () => {
   
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -20,8 +21,9 @@ export const authMiddleware = () => {
       const decoded = jwt.verify(
         token as string,
         config.accessSecret as string,
-      ) as JwtPayload;
-
+      ) as JwtPayload; // payload interface manually created
+      
+      // find user by id
       const userData = await pool.query(
         `
         SELECT * FROM users
@@ -31,7 +33,8 @@ export const authMiddleware = () => {
       );
 
       const user = userData.rows[0];
-
+   
+      
       if (!user) {
         throw new AppError(
           "Unauthorized: User Not Found!!",
