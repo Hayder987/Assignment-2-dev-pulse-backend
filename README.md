@@ -36,6 +36,8 @@ DevPulse is a role-based issue tracking system where:
 ## 📁 Project Structure
 
 DEV_PULSE_BACKEND/
+
+```
 │
 ├── src/
 │   │
@@ -103,9 +105,9 @@ DEV_PULSE_BACKEND/
 ├── package.json
 ├── tsconfig.json
 └── README.md
+```
 
 
----
 
 ## 🚀 Features
 
